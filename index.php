@@ -2,12 +2,10 @@
 session_start();
 require_once 'autoload.php';
 
-require_once("config/config.php");
 require_once("config/parameters.php");
-require_once("routes/router.php");
+require_once("config/config.php");
 
 $url = explode("/", URL);
-
 
 if ($url[0] == "" && $url[1] == "") {
     Utils::validateSession();
