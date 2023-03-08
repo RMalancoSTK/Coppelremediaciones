@@ -8,7 +8,7 @@ class CoreController
     {
         // Utils::validateSession();
         $this->instanciaMenu = new MenuModel();
-        $this->menu ? $this->menu : $this->menu = $this->crearMenu($this->instanciaMenu, $_SESSION['rol']);
+        $this->menu = $this->menu ? $this->menu : $this->crearMenu($this->instanciaMenu, $_SESSION['rol']);
     }
 
     private function crearMenu($instancia, $rol)

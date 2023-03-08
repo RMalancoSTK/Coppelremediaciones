@@ -8,9 +8,26 @@ class ApsController extends CoreController
 
     public function __construct()
     {
-        Utils::setJsScript('<script src="' . BASE_URL . 'assets/js/aps.js"></script>');
         parent::__construct();
+        Utils::setJsScript('<script src="' . BASE_URL . 'assets/js/aps.js"></script>');
         $this->apsModel = new apsModel();
+    }
+
+    private function loadView($view)
+    {
+        if (isset($_SESSION['autenticado'])) {
+            require_once("views/templates/header.php");
+            require_once("views/templates/menu.php");
+            require_once("views/" . $view . ".php");
+            require_once("views/templates/footer.php");
+        } else {
+            Utils::redirect(LOCATION_LOGIN);
+        }
+    }
+
+    public function index()
+    {
+        $this->loadView('aps/index');
     }
 
     public function aps()

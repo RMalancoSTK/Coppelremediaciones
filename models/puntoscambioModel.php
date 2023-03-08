@@ -1,5 +1,5 @@
 <?php
-class puntoscambioModel
+class PuntosCambioModel
 {
     private $con;
 

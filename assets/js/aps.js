@@ -95,7 +95,7 @@ function guardarAps(event) {
   var id_aps = document.getElementById("id_aps").value;
   var nombre = document.getElementById("nombre").value;
   $.ajax({
-    url: `../aps/guardarApsJson`,
+    url: BASE_URL + `../aps/guardarApsJson`,
     type: "POST",
     data: {
       id_aps: id_aps,

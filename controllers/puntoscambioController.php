@@ -1,55 +1,56 @@
 <?php
-require_once('models/puntoscambioModel.php');
 
-class puntoscambioController extends coreController
+require_once('models/PuntosCambioModel.php');
+
+class PuntosCambioController extends CoreController
 {
-    private $js;
-    private $puntos;
+    private $puntosModel;
+
     public function __construct()
     {
         parent::__construct();
-        $this->js = '../assets/js/puntoscambio.js';
-        $this->puntos = new PuntosCambioModel();
+        Utils::setJsScript('<script src="' . BASE_URL . 'assets/js/puntosCambio.js"></script>');
+        $this->puntosModel = new PuntosCambioModel();
     }
 
     public function puntos()
     {
-        $resLenguajes = $this->puntos->readLenguajes();
-        $resPalabras = $this->puntos->readPalabras();
+        $this->puntosModel->readLenguajes();
+        $this->puntosModel->readPalabras();
         require_once("views/templates/header.php");
         require_once("views/templates/menu.php");
-        require_once("views/puntoscambio.php");
+        require_once("views/.php");
         require_once("views/templates/footer.php");
     }
 
     public function update()
     {
-        $res = $this->puntos->update($_POST);
+        $this->puntosModel->update($_POST);
         $data['res'] = 'Tu registro se ha actualizado correctamente';
         echo json_encode($data);
     }
 
     public function crearSelect()
     {
-        $res = $this->puntos->getLenguajes();
+        $res = $this->puntosModel->getLenguajes();
         echo json_encode($res);
     }
 
     public function delete()
     {
-        $res = $this->puntos->delete($_POST["id"]);
+        $this->puntosModel->delete($_POST["id"]);
         echo json_encode("Tu registro ha sido eliminado");
     }
 
     public function savePalabra()
     {
-        $res = $this->puntos->savePalabra($_POST);
+        $this->puntosModel->savePalabra($_POST);
         echo json_encode("Tu registro ha sido creado");
     }
 
     public function saveLanguage()
     {
-        $res = $this->puntos->saveLanguage($_POST);
+        $this->puntosModel->saveLanguage($_POST);
         echo json_encode("Tu registro ha sido creado");
     }
 
@@ -67,7 +68,7 @@ class puntoscambioController extends coreController
             $extraido = $zip->extractTo('uploads/');
             $zip->close();
             $dir = opendir('uploads/' . $path_completo);
-            $getPalabras = $this->puntos->getPalabrasExtension('php');
+            $getPalabras = $this->puntosModel->getPalabrasExtension('php');
 
             global $resultados;
             $nombreCarpeta = 'uploads/' . $path_completo;
