@@ -22,9 +22,10 @@ class ApsModel
         return $this->con->query("SELECT *, if(estatus = 1, 'ACTIVO', 'INACTIVO') AS estatus_aps, if(estatus = 1, 'bg-success', 'bg-warning') AS colores_aps FROM co_aps");
     }
 
-    public function getApsJson($id)
+    public function getApsJson($datos)
     {
-        return $this->con->query("SELECT * FROM co_aps WHERE id_aps = $id");
+        $idAps = $datos['id_aps'];
+        return $this->con->query("SELECT * FROM co_aps WHERE id_aps = $idAps");
     }
 
     public function saveApsJson($datos)

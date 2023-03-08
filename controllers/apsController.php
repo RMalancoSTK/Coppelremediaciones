@@ -2,47 +2,29 @@
 
 require_once('models/apsModel.php');
 
-class ApsController extends coreController
+class ApsController extends CoreController
 {
-    private $js;
-    private $aps;
+    private $apsModel;
 
     public function __construct()
     {
+        Utils::setJsScript('<script src="' . BASE_URL . 'assets/js/aps.js"></script>');
         parent::__construct();
-        $this->js = '<script src="' . BASE_URL . 'assets/js/aps.js"></script>';
-        $this->aps = new apsModel();
+        $this->apsModel = new apsModel();
     }
 
     public function aps()
     {
-        Utils::validateSession();
-        $_SESSION['script'] = $this->js;
         require_once("views/templates/header.php");
         require_once("views/templates/menu.php");
         require_once("views/aps.php");
         require_once("views/templates/footer.php");
     }
 
-    // public function list()
-    // {
-    //     $aps = $this->aps->listAps();
-    //     $aps = array_map(function ($ap) {
-    //         return (object) array(
-    //             'id' => $ap['id_aps'],
-    //             'nombre' => $ap['nombre'],
-    //             'estatus_aps' => $ap['estatus_aps'],
-    //             'colores_aps' => $ap['colores_aps'],
-    //             'fecha_reg' => $ap['fecha_reg'],
-    //         );
-    //     }, $aps);
-    //     return $aps;
-    // }
-
     public function listApsJson()
     {
         $arreglo = array();
-        $query = $this->aps->listApsJson();
+        $query = $this->apsModel->listApsJson();
         foreach ($query as $data) {
             $arreglo[] = $data;
         }
@@ -50,10 +32,9 @@ class ApsController extends coreController
         die();
     }
 
-    public function getApsJson()
+    public function getApsJson($datos)
     {
-        $id_aps = $_POST['id_aps'];
-        $query = $this->aps->getApsJson($id_aps);
+        $query = $this->apsModel->getApsJson($datos);
         $data = $query->fetch_object();
         echo json_encode($data);
         die();
@@ -65,11 +46,11 @@ class ApsController extends coreController
         $idAps = isset($datos['id_aps']) ? $datos['id_aps'] : null;
 
         if ($idAps && $nombre) {
-            $this->aps->editApsJson($datos);
+            $this->apsModel->editApsJson($datos);
             $status = 'success';
             $message = 'Registro actualizado correctamente';
         } elseif ($nombre) {
-            $this->aps->saveApsJson($datos);
+            $this->apsModel->saveApsJson($datos);
             $status = 'success';
             $message = 'Registro guardado correctamente';
         } else {
@@ -88,7 +69,7 @@ class ApsController extends coreController
         $idAps = isset($datos['id_aps']) ? $datos['id_aps'] : null;
 
         if ($idAps) {
-            $this->aps->estatusApsJson($datos);
+            $this->apsModel->estatusApsJson($datos);
             $status = 'success';
             $message = 'Registro desactivado correctamente' . $datos['estatus'];
         } else {
@@ -107,7 +88,7 @@ class ApsController extends coreController
         $idAps = isset($datos['id_aps']) ? $datos['id_aps'] : null;
 
         if ($idAps) {
-            $this->aps->estatusApsJson($datos);
+            $this->apsModel->estatusApsJson($datos);
             $status = 'success';
             $message = 'Registro activado correctamente';
         } else {
@@ -119,25 +100,5 @@ class ApsController extends coreController
             'status' => $status,
             'message' => $message,
         ));
-    }
-
-    public function edit()
-    {
-        $res = $this->aps->editAps($_POST);
-        $data["res"] = "Tu registro se ha actualizado correctamente";
-        echo json_encode($data);
-    }
-
-    public function delete()
-    {
-        $res = $this->aps->deleteAps($_POST);
-        echo json_encode($res);
-    }
-
-    public function save()
-    {
-        $res = $this->aps->saveAps($_POST);
-        $data["res"] = "Tu registro se ha agregado correctamente";
-        echo json_encode($data);
     }
 }

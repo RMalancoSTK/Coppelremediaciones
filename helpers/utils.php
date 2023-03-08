@@ -33,4 +33,15 @@ class Utils
         }
         return $script;
     }
+
+    public static function redirect($location)
+    {
+        header($location);
+        exit();
+    }
+
+    public static function setJsScript($script)
+    {
+        $_SESSION['script'] = $script;
+    }
 }
