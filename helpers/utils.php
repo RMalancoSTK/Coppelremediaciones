@@ -23,4 +23,14 @@ class Utils
             unset($_SESSION[$name]);
         }
     }
+
+    public static function jsScript()
+    {
+        $script = "";
+        if (isset($_SESSION['script'])) {
+            $script = $_SESSION['script'];
+            unset($_SESSION['script']);
+        }
+        return $script;
+    }
 }

@@ -10,17 +10,44 @@ class ApsController extends coreController
     public function __construct()
     {
         parent::__construct();
-        $this->js = '../assets/js/aps.js';
+        $this->js = '<script src="' . BASE_URL . 'assets/js/aps.js"></script>';
         $this->aps = new apsModel();
     }
 
     public function aps()
     {
-        $res = $this->aps->listAps();
+        Utils::validateSession();
+        $_SESSION['script'] = $this->js;
         require_once("views/templates/header.php");
         require_once("views/templates/menu.php");
         require_once("views/aps.php");
         require_once("views/templates/footer.php");
+    }
+
+    public function list()
+    {
+        $aps = $this->aps->listAps();
+        $aps = array_map(function ($ap) {
+            return (object) array(
+                'id' => $ap['id_aps'],
+                'nombre' => $ap['nombre'],
+                'estatus_aps' => $ap['estatus_aps'],
+                'colores_aps' => $ap['colores_aps'],
+                'fecha_reg' => $ap['fecha_reg'],
+            );
+        }, $aps);
+        return $aps;
+    }
+
+    public function listApsJson()
+    {
+        $arreglo = array();
+        $query = $this->aps->listApsJson();
+        foreach ($query as $data) {
+            $arreglo[] = $data;
+        }
+        echo json_encode($arreglo);
+        die();
     }
 
     public function edit()
