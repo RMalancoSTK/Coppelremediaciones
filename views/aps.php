@@ -5,8 +5,8 @@
 
 <div class="card mb-4">
     <div class="card-header">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#nuevoRolModal">
-            Crear nuevo rol
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#apsModal" id="btnNuevo">
+            Crear nuevo APS
         </button>
     </div>
     <div class="card-body">
@@ -35,24 +35,41 @@
     </div>
 </div>
 
-<div class="modal fade" id="nuevoRolModal" tabindex="-1" aria-labelledby="nuevoRolModalLabel" aria-hidden="true">
+<div class="modal fade" id="apsModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Registro de un nuevo rol de usuario</h5>
-                <button type="button" class="close cerrarModal" data-dismiss="modal" aria-label="Close">
+                <h4 class="modal-title" id="modalTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnCerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form class="row g-3 frmGuardar" method="POST" enctype="multipart/form-data">
-                    <div class="col-md-12">
-                        <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                <form id="formAps" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" id="id_aps" name="id_aps">
+                    <div class="form-group row">
+                        <label for="nombre" class="col-sm-3 col-form-label">Nombre</label>
+                        <div class="col-sm-9">
+                            <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Nombre" required>
+                        </div>
                     </div>
-                    <div class="col-12">
-                        <button class="btn btn-primary" onclick="guardarRol()">Guardar</button>
-                        <button type="button" class="btn btn-secondary cerrarModal" data-dismiss="modal">Cerrar</button>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <button class="btn btn-primary btn-block" onclick="guardarAps(event)">
+                                    <i class="fas fa-save"></i>
+                                    Guardar
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">
+                                    <i class="fas fa-times"></i>
+                                    Cancelar
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>

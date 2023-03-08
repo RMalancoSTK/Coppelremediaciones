@@ -6,7 +6,7 @@ class CoreController
 
     public function __construct()
     {
-        Utils::validateSession();
+        // Utils::validateSession();
         $this->instanciaMenu = new MenuModel();
         $this->menu ? $this->menu : $this->menu = $this->crearMenu($this->instanciaMenu, $_SESSION['rol']);
     }
